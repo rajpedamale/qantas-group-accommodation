@@ -39,3 +39,24 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Logs
+logs/
+*.log
+
+# MacOS system files
+.AppleDouble
+.LSOverride
+
+# WebStorm project files
+.idea/
+*.iml
+
+# Jest coverage reports
+coverage/
+
+# Environment variables
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
