@@ -4,11 +4,11 @@ import { DetailSection } from "./DetailSection";
 import { Hotel } from "@/types/hotel";
 import { mockHotels } from "@/utils/mockData";
 
-jest.mock("@/components/Details", () => ({
+jest.mock("@/components/DetailsSectionComponents/Details", () => ({
   Details: () => <div data-testid="mock-details">Mocked Details</div>,
 }));
 
-jest.mock("@/components/PriceSection", () => ({
+jest.mock("@/components/DetailsSectionComponents/PriceSection", () => ({
   PriceSection: () => (
     <div data-testid="mock-price-section">Mocked Price Section</div>
   ),

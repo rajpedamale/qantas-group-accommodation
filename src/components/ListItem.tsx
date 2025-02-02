@@ -1,7 +1,7 @@
 import { Hotel } from "@/types/hotel";
 import React from "react";
-import { DetailSection } from "@/components/DetailSection";
-import { ImageSection } from "@/components/ImageSection";
+import { DetailSection } from "@/components/DetailsSectionComponents/DetailSection";
+import { ImageSection } from "@/components/ImageSectionComponents/ImageSection";
 
 export function ListItem({ hotel }: { hotel: Hotel }) {
   return (

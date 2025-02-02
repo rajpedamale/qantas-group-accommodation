@@ -1,7 +1,7 @@
 import React from "react";
 import { Hotel } from "@/types/hotel";
-import { PriceSection } from "@/components/PriceSection";
-import { Details } from "@/components/Details";
+import { PriceSection } from "@/components/DetailsSectionComponents/PriceSection";
+import { Details } from "@/components/DetailsSectionComponents/Details";
 
 type DetailSectionPropsType = {
   property: Hotel["property"];

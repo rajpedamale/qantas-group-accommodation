@@ -3,13 +3,13 @@ import { render, screen } from "@testing-library/react";
 import { ListItem } from "./ListItem";
 import { mockHotels } from "@/utils/mockData";
 
-jest.mock("@/components/ImageSection", () => ({
+jest.mock("@/components/ImageSectionComponents/ImageSection", () => ({
   ImageSection: () => (
     <div data-testid="mock-image-section">Mocked ImageSection</div>
   ),
 }));
 
-jest.mock("@/components/DetailSection", () => ({
+jest.mock("@/components/DetailsSectionComponents/DetailSection", () => ({
   DetailSection: () => (
     <div data-testid="mock-detail-section">Mocked DetailSection</div>
   ),
