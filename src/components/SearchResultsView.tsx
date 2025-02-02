@@ -30,7 +30,7 @@ export const SearchResultsView: React.FC<SearchResultsProps> = ({ hotels }) => {
         }}
       />
 
-      <div className="grid grid-cols-1 gap-1">
+      <div className="grid grid-cols-1 gap-1 pb-1 border-b-[1px]">
         {sortedHotels.length > 0
           ? sortedHotels.map((hotel) => (
               <ListItem key={hotel.id} hotel={hotel} />
