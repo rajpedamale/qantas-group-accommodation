@@ -11,10 +11,10 @@ describe("SearchResultsView", () => {
     expect(heading.textContent).toBe("2 hotels in Sydney");
   });
 
-  it('renders "0 hotels" if no hotels are available', () => {
+  it('renders "No hotels available" when no hotels exist', () => {
     render(<SearchResultsView hotels={[]} />);
 
     const heading = screen.getByRole("heading");
-    expect(heading.textContent).toBe("0 hotels in Sydney");
+    expect(heading.textContent).toBe("No hotels available.");
   });
 });
