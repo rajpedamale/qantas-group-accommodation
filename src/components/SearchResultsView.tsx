@@ -1,6 +1,6 @@
 "use client";
 import { Hotel } from "@/types/hotel";
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { ListItem } from "@/components/ListItem";
 import { SearchResultsHeader } from "@/components/SearchResultsHeader";
 
@@ -8,16 +8,22 @@ interface SearchResultsProps {
   hotels: Hotel[];
 }
 
-export const SearchResultsView: React.FC<SearchResultsProps> = ({ hotels }) => {
-  const [sortOption, setSortOption] = useState<"low-high" | "high-low">(
-    "low-high",
-  );
+type SortOptions = "low-high" | "high-low";
 
-  // Sort hotels dynamically based on user selection
-  const sortedHotels = [...hotels].sort((a, b) =>
-    sortOption === "low-high"
-      ? a.offer.displayPrice.amount - b.offer.displayPrice.amount
-      : b.offer.displayPrice.amount - a.offer.displayPrice.amount,
+export const SearchResultsView: React.FC<SearchResultsProps> = ({ hotels }) => {
+  const [sortOption, setSortOption] = useState<SortOptions>("low-high");
+
+  const sortHotels = (hotels: Hotel[], sortOption: SortOptions) => {
+    return [...hotels].sort((a, b) =>
+      sortOption === "low-high"
+        ? a.offer.displayPrice.amount - b.offer.displayPrice.amount
+        : b.offer.displayPrice.amount - a.offer.displayPrice.amount,
+    );
+  };
+
+  const sortedHotels = useMemo(
+    () => sortHotels(hotels, sortOption),
+    [hotels, sortOption],
   );
 
   return (
@@ -26,7 +32,7 @@ export const SearchResultsView: React.FC<SearchResultsProps> = ({ hotels }) => {
         hotels={sortedHotels}
         value={sortOption}
         onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
-          setSortOption(e.target.value as "low-high" | "high-low");
+          setSortOption(e.target.value as SortOptions);
         }}
       />
 
