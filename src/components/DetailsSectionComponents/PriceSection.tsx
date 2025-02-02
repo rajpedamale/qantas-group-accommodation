@@ -1,6 +1,8 @@
 import React from "react";
 import { Hotel } from "@/types/hotel";
 import { PriceUnit } from "@/components/DetailsSectionComponents/PriceUnit";
+import { Amount } from "@/components/DetailsSectionComponents/Amount";
+import { Savings } from "@/components/DetailsSectionComponents/Savings";
 
 interface PriceSectionProps {
   displayPrice: Hotel["offer"]["displayPrice"];
@@ -9,14 +11,10 @@ interface PriceSectionProps {
 
 export function PriceSection({ displayPrice, savings }: PriceSectionProps) {
   return (
-    <div>
+    <div className="flex flex-col items-end">
       <PriceUnit />
-      <div className="font-[verdana] text-gray-600 text-2xl">
-        $ {displayPrice.amount}
-      </div>
-      {savings && (
-        <div className="flex text-pink-600 ">Save ${savings?.amount}~</div>
-      )}
+      <Amount amount={displayPrice.amount} />
+      <Savings savings={savings} />
     </div>
   );
 }

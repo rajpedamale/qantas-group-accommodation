@@ -2,36 +2,44 @@ import "@testing-library/jest-dom";
 import { render, screen } from "@testing-library/react";
 import { PriceSection } from "./PriceSection";
 import { Hotel } from "@/types/hotel";
+import { mockHotels } from "@/utils/mockData";
 
-describe("PriceSection", () => {
-  const mockDisplayPrice: Hotel["offer"]["displayPrice"] = {
-    amount: 250,
-    currency: "AUD",
-  };
+jest.mock("@/components/DetailsSectionComponents/PriceUnit", () => ({
+  PriceUnit: () => <div data-testid="mock-price-unit">Mocked PriceUnit</div>,
+}));
 
-  const mockSavings: Hotel["offer"]["savings"] = {
-    amount: 50,
-    currency: "AUD",
-  };
+jest.mock("@/components/DetailsSectionComponents/Amount", () => ({
+  Amount: ({ amount }: { amount: number }) => (
+    <div data-testid="mock-amount">${amount}</div>
+  ),
+}));
 
-  it("renders the correct total price", () => {
-    render(<PriceSection displayPrice={mockDisplayPrice} />);
+jest.mock("@/components/DetailsSectionComponents/Savings", () => ({
+  Savings: ({ savings }: { savings?: Hotel["offer"]["savings"] }) => (
+    <div data-testid="mock-savings">
+      {savings ? `Save $${savings.amount}~` : ""}
+    </div>
+  ),
+}));
 
-    expect(screen.getByText("1 night total (AUD)")).toBeInTheDocument();
-    expect(screen.getByText("$ 250")).toBeInTheDocument();
-  });
+const { displayPrice, savings } = mockHotels[0].offer;
 
-  it("renders the savings section when savings are provided", () => {
-    render(
-      <PriceSection displayPrice={mockDisplayPrice} savings={mockSavings} />,
+describe("PriceSection Component", () => {
+  it("renders the mocked PriceUnit, Amount, and Savings components", () => {
+    render(<PriceSection displayPrice={displayPrice} savings={savings} />);
+
+    expect(screen.getByTestId("mock-price-unit")).toBeInTheDocument();
+    expect(screen.getByTestId("mock-amount")).toHaveTextContent(
+      `${displayPrice.amount}`,
     );
-
-    expect(screen.getByText("Save $50~")).toBeInTheDocument();
+    expect(screen.getByTestId("mock-savings")).toHaveTextContent(
+      `Save $${savings?.amount}~`,
+    );
   });
 
-  it("does not render the savings section when no savings are provided", () => {
-    render(<PriceSection displayPrice={mockDisplayPrice} />);
+  it("renders Savings correctly when no savings are provided", () => {
+    render(<PriceSection displayPrice={displayPrice} />);
 
-    expect(screen.queryByText(/Save \$/)).not.toBeInTheDocument();
+    expect(screen.getByTestId("mock-savings")).toBeEmptyDOMElement();
   });
 });
