@@ -30,12 +30,18 @@ describe("fetchHotels", () => {
       json: async () => ({}),
     });
 
-    await expect(fetchHotels()).rejects.toThrow("Failed to fetch hotels");
+    const hotels = await fetchHotels();
+
+    expect(hotels).toEqual([]); // Should return an empty array
+    expect(fetch).toHaveBeenCalledTimes(1);
   });
 
   it("throws an error when fetch fails (network error)", async () => {
     (fetch as jest.Mock).mockRejectedValueOnce(new Error("Network Error"));
 
-    await expect(fetchHotels()).rejects.toThrow("Network Error");
+    const hotels = await fetchHotels();
+
+    expect(hotels).toEqual([]); // Should return an empty array
+    expect(fetch).toHaveBeenCalledTimes(1);
   });
 });

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Image from "next/image";
+import clsx from "classnames";
 
 type ImageComponentProps = { src: string; alt: string };
 
@@ -28,9 +29,10 @@ export function ImageComponent({ src, alt }: ImageComponentProps) {
         alt={alt}
         width={145}
         height={125}
-        className={`object-contain transition-opacity duration-300 ${
-          imageLoaded ? "opacity-100" : "opacity-0"
-        }`}
+        className={clsx("object-contain transition-opacity duration-300", {
+          "opacity-100": imageLoaded,
+          "opacity-0": !imageLoaded,
+        })}
         onLoad={() => setImageLoaded(true)}
         onError={() => console.error("Failed to load image:", src)}
         priority
