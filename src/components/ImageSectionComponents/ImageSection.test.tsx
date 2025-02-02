@@ -4,26 +4,28 @@ import { ImageSection } from "./ImageSection";
 import { Hotel } from "@/types/hotel";
 import { mockHotels } from "@/utils/mockData";
 
+jest.mock("next/image", () => (props: any) => {
+  return <img {...props} />;
+});
+
 const mockProperty: Hotel["property"] = mockHotels[0].property;
-const mockSrc =
-  mockProperty.previewImage.url + "&id=" + mockProperty.propertyId;
-const mockName = mockProperty.title;
+const mockSrc = `${mockProperty.previewImage.url}&id=${mockProperty.propertyId}`;
 
 describe("ImageSection", () => {
   it("renders the image with correct src and alt attributes", () => {
     render(<ImageSection property={mockProperty} />);
 
-    const image = screen.getByRole("img", { name: mockName });
+    const image = screen.getByRole("img", { name: mockProperty.title });
 
     expect(image).toHaveAttribute("src", mockSrc);
-    expect(image).toHaveAttribute("alt", mockName);
+    expect(image).toHaveAttribute("alt", mockProperty.title);
   });
 
-  it("applies the correct styling", () => {
+  it("applies correct styling", () => {
     render(<ImageSection property={mockProperty} />);
 
-    const image = screen.getByRole("img", { name: mockName });
+    const image = screen.getByRole("img", { name: mockProperty.title });
 
-    expect(image).toHaveClass("w-[145px] h-[125px] object-contain");
+    expect(image).toHaveClass("object-contain");
   });
 });

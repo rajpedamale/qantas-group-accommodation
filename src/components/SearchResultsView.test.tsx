@@ -3,6 +3,10 @@ import { render, screen, fireEvent } from "@testing-library/react";
 import { SearchResultsView } from "./SearchResultsView";
 import { mockHotels } from "@/utils/mockData";
 
+jest.mock("next/image", () => (props: any) => {
+  return <img {...props} />;
+});
+
 // No mocking in this test.
 // The mocks turned out to be as big as the original implementation
 

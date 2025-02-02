@@ -1,5 +1,6 @@
 import React from "react";
 import { Hotel } from "@/types/hotel";
+import { ImageComponent } from "@/components/ImageSectionComponents/ImageComponent";
 
 type ImageSectionProps = {
   property: Hotel["property"];
@@ -11,10 +12,8 @@ export function ImageSection({ property }: ImageSectionProps) {
   // Adding the extra URL Param, just to avoid the browser cache reuse
   const imageUrl = property.previewImage.url + "&id=" + property.propertyId;
   return (
-    <img
-      src={imageUrl}
-      alt={property.title}
-      className={`w-[145px] h-[125px] object-contain }`}
-    />
+    <div className="bg-white relative justify-center pt-2  hidden md:block">
+      <ImageComponent src={imageUrl} alt={property.title} />
+    </div>
   );
 }

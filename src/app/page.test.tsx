@@ -8,6 +8,10 @@ jest.mock("./page", () => ({
   default: jest.fn(),
 }));
 
+jest.mock("next/image", () => (props: any) => {
+  return <img {...props} />;
+});
+
 describe("Home (Server Component)", () => {
   it("displays loading message before hotels load", async () => {
     (Home as jest.Mock).mockImplementation(async () => {
