@@ -1,5 +1,6 @@
 import { Hotel } from "@/types/hotel";
 import React from "react";
+import { DetailSection } from "@/components/DetailSection";
 
 export function ListItem({ hotel }: { hotel: Hotel }) {
   // Looks like the browser cache was interfering. All images were shown the same.
@@ -13,9 +14,7 @@ export function ListItem({ hotel }: { hotel: Hotel }) {
         alt={hotel.property.title}
         className={`w-[145px] h-[125px] object-contain }`}
       />
-      <h3 className="text-lg max-w-72 truncate overflow-hidden whitespace-nowrap">
-        {hotel.property.title}
-      </h3>
+      <DetailSection property={hotel.property} offer={hotel.offer} />
     </div>
   );
 }
