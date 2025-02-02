@@ -1,5 +1,6 @@
 import React from "react";
 import { Hotel } from "@/types/hotel";
+import { PriceUnit } from "@/components/DetailsSectionComponents/PriceUnit";
 
 interface PriceSectionProps {
   displayPrice: Hotel["offer"]["displayPrice"];
@@ -9,7 +10,7 @@ interface PriceSectionProps {
 export function PriceSection({ displayPrice, savings }: PriceSectionProps) {
   return (
     <div>
-      <div className="text-[0.5rem]">1 night total (AUD)</div>
+      <PriceUnit />
       <div className="font-[verdana] text-gray-600 text-2xl">
         $ {displayPrice.amount}
       </div>
