@@ -3,33 +3,33 @@ import { render, screen } from "@testing-library/react";
 import { ListItem } from "./ListItem";
 import { mockHotels } from "@/utils/mockData";
 
-const mockHotel = mockHotels[0];
-const title = mockHotel.property.title;
-const imgSrc = `${mockHotel.property.previewImage.url}&id=${mockHotel.id}`;
+jest.mock("@/components/ImageSection", () => ({
+  ImageSection: () => (
+    <div data-testid="mock-image-section">Mocked ImageSection</div>
+  ),
+}));
+
+jest.mock("@/components/DetailSection", () => ({
+  DetailSection: () => (
+    <div data-testid="mock-detail-section">Mocked DetailSection</div>
+  ),
+}));
 
 describe("ListItem", () => {
-  it("renders the hotel title", () => {
+  const mockHotel = mockHotels[0];
+  const title = mockHotel.property.title;
+
+  it("renders the mocked ImageSection and DetailSection components", () => {
     render(<ListItem hotel={mockHotel} />);
 
-    expect(screen.getByText(title)).toBeInTheDocument();
+    expect(screen.getByTestId("mock-image-section")).toBeInTheDocument();
+    expect(screen.getByTestId("mock-detail-section")).toBeInTheDocument();
   });
 
-  it("renders the correct image with cache-busting URL", () => {
+  it("does not render actual ImageSection or DetailSection content", () => {
     render(<ListItem hotel={mockHotel} />);
 
-    const image = screen.getByRole("img", { name: title });
-
-    expect(image).toHaveAttribute("src", imgSrc);
-    expect(image).toHaveAttribute("alt", title);
-  });
-
-  it("applies text truncation styles", () => {
-    render(<ListItem hotel={mockHotel} />);
-
-    const hotelTitle = screen.getByText(title);
-
-    expect(hotelTitle).toHaveClass(
-      "max-w-72 truncate overflow-hidden whitespace-nowrap",
-    );
+    expect(screen.queryByRole("img")).not.toBeInTheDocument();
+    expect(screen.queryByText(title)).not.toBeInTheDocument();
   });
 });
