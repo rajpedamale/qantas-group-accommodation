@@ -1,36 +1,30 @@
-import React from "react";
+import "@testing-library/jest-dom";
 import { render, screen } from "@testing-library/react";
 import { Header } from "./Header";
+import { Hotel } from "@/types/hotel";
+import { mockHotels } from "@/utils/mockData";
 
+jest.mock("@/components/DetailsSectionComponents/Title", () => ({
+  Title: ({ title }: { title: string }) => (
+    <div data-testid="mock-title">{title}</div>
+  ),
+}));
+
+jest.mock("@/components/DetailsSectionComponents/Rating", () => ({
+  Rating: ({ rating }: { rating: Hotel["property"]["rating"] }) => (
+    <div data-testid="mock-rating">{`Rating: ${rating.ratingValue} (${rating.ratingType})`}</div>
+  ),
+}));
+
+const mockTitle = "Sample Hotel Name";
+const mockRating = mockHotels[0].property.rating;
 describe("Header Component", () => {
-  it("renders the title correctly", () => {
-    const title = "Sample Header Title";
-    render(<Header title={title} />);
+  it("renders mocked Title and Rating components", () => {
+    render(<Header title={mockTitle} rating={mockRating} />);
 
-    const headingElement = screen.getByText(title);
-    expect(headingElement).toBeInTheDocument();
-  });
-
-  it("applies correct CSS classes", () => {
-    const title = "Sample Title for CSS Test";
-    render(<Header title={title} />);
-
-    const headingElement = screen.getByText(title);
-
-    expect(headingElement).toHaveClass("text-lg");
-    expect(headingElement).toHaveClass("max-w-72");
-    expect(headingElement).toHaveClass("truncate");
-    expect(headingElement).toHaveClass("overflow-hidden");
-    expect(headingElement).toHaveClass("whitespace-nowrap");
-  });
-
-  it("handles long titles gracefully (truncates when necessary)", () => {
-    const longTitle = "This is a very long title that should not fully display";
-    render(<Header title={longTitle} />);
-
-    const headingElement = screen.getByText(longTitle);
-
-    expect(headingElement).toBeInTheDocument();
-    expect(headingElement).toHaveClass("truncate");
+    expect(screen.getByTestId("mock-title")).toHaveTextContent(mockTitle);
+    expect(screen.getByTestId("mock-rating")).toHaveTextContent(
+      "Rating: 4.5 (self)",
+    );
   });
 });

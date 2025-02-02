@@ -12,13 +12,9 @@ type DetailSectionPropsType = {
 export function DetailSection({ property, offer }: DetailSectionPropsType) {
   return (
     <div className="px-4 w-full h-36 md:h-28">
-      <Header title={property.title} />
+      <Header title={property.title} rating={property.rating} />
       <Address addressLines={property.address} />
-      <Offer
-        offer={offer}
-        displayPrice={offer.displayPrice}
-        savings={offer.savings}
-      />
+      <Offer offer={offer} />
     </div>
   );
 }

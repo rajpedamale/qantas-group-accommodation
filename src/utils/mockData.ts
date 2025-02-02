@@ -49,7 +49,7 @@ export const mockHotels: Hotel[] = [
       },
       rating: {
         ratingValue: 5,
-        ratingType: "self",
+        ratingType: "star",
       },
     },
     offer: {

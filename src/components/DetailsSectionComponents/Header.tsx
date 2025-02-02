@@ -1,9 +1,15 @@
 import React from "react";
+import { Rating } from "@/components/DetailsSectionComponents/Rating";
+import { Hotel } from "@/types/hotel";
+import { Title } from "@/components/DetailsSectionComponents/Title";
 
-export function Header({ title }: { title: string }) {
+type HeaderProps = { title: string; rating: Hotel["property"]["rating"] };
+
+export function Header({ title, rating }: HeaderProps) {
   return (
-    <h3 className="text-lg max-w-72 truncate overflow-hidden whitespace-nowrap">
-      {title}
-    </h3>
+    <div className="flex items-center gap-2 pt-2 border-t">
+      <Title title={title} />
+      <Rating rating={rating}></Rating>
+    </div>
   );
 }
