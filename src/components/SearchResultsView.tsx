@@ -1,29 +1,40 @@
+"use client";
 import { Hotel } from "@/types/hotel";
-import React from "react";
+import React, { useState } from "react";
 import { ListItem } from "@/components/ListItem";
+import { SearchResultsHeader } from "@/components/SearchResultsHeader";
 
 interface SearchResultsProps {
   hotels: Hotel[];
 }
 
 export const SearchResultsView: React.FC<SearchResultsProps> = ({ hotels }) => {
+  const [sortOption, setSortOption] = useState<"low-high" | "high-low">(
+    "low-high",
+  );
+
+  // Sort hotels dynamically based on user selection
+  const sortedHotels = [...hotels].sort((a, b) =>
+    sortOption === "low-high"
+      ? a.offer.displayPrice.amount - b.offer.displayPrice.amount
+      : b.offer.displayPrice.amount - a.offer.displayPrice.amount,
+  );
+
   return (
     <>
-      <div className="flex justify-between items-center mb-4">
-        <h2 role="heading" className="text-sm font-bold">
-          {hotels.length > 0 ? (
-            <>
-              {hotels.length}(
-              <span className="italic font-thin"> hotels in </span>Sydney)
-            </>
-          ) : (
-            <>No hotels available.</>
-          )}
-        </h2>
-      </div>
-      <div className="grid grid-cols-1 gap-1 pb-1 border-b-[1px]">
-        {hotels.length > 0
-          ? hotels.map((hotel) => <ListItem key={hotel.id} hotel={hotel} />)
+      <SearchResultsHeader
+        hotels={sortedHotels}
+        value={sortOption}
+        onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
+          setSortOption(e.target.value as "low-high" | "high-low");
+        }}
+      />
+
+      <div className="grid grid-cols-1 gap-1">
+        {sortedHotels.length > 0
+          ? sortedHotels.map((hotel) => (
+              <ListItem key={hotel.id} hotel={hotel} />
+            ))
           : null}
       </div>
     </>
