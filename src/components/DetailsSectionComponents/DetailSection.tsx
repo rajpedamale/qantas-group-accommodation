@@ -1,7 +1,8 @@
 import React from "react";
 import { Hotel } from "@/types/hotel";
-import { PriceSection } from "@/components/DetailsSectionComponents/PriceSection";
-import { Details } from "@/components/DetailsSectionComponents/Details";
+import { Header } from "@/components/DetailsSectionComponents/Header";
+import { Address } from "@/components/DetailsSectionComponents/Address";
+import { Offer } from "@/components/DetailsSectionComponents/Offer";
 
 type DetailSectionPropsType = {
   property: Hotel["property"];
@@ -10,9 +11,14 @@ type DetailSectionPropsType = {
 
 export function DetailSection({ property, offer }: DetailSectionPropsType) {
   return (
-    <div className="flex justify-between items-stretch">
-      <Details property={property} offer={offer} />
-      <PriceSection displayPrice={offer.displayPrice} savings={offer.savings} />
+    <div className="px-4 w-full h-36 md:h-28">
+      <Header title={property.title} />
+      <Address addressLines={property.address} />
+      <Offer
+        offer={offer}
+        displayPrice={offer.displayPrice}
+        savings={offer.savings}
+      />
     </div>
   );
 }

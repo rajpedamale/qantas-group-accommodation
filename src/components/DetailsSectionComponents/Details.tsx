@@ -1,22 +1,17 @@
 import React from "react";
 import { Hotel } from "@/types/hotel";
 import { Extras } from "@/components/DetailsSectionComponents/Extras";
-import { Header } from "@/components/DetailsSectionComponents/Header";
-import { Address } from "@/components/DetailsSectionComponents/Address";
 import { OfferName } from "@/components/DetailsSectionComponents/OfferName";
 
 type DetailsProps = {
-  property: Hotel["property"];
   offer: Hotel["offer"];
 };
 
-export function Details({ property, offer }: DetailsProps) {
+export function Details({ offer }: DetailsProps) {
   return (
-    <div>
-      <Header title={property.title} />
-      <Address addressLines={property.address} />
+    <div className="flex flex-col justify-between h-[82px]">
       <OfferName name={offer.name} />
-      <Extras cancellationOption={offer.cancellationOption} />
+      <Extras cancellationType={offer.cancellationOption.cancellationType} />
     </div>
   );
 }
