@@ -3,6 +3,10 @@ import { render, screen } from "@testing-library/react";
 import { SearchResultsView } from "./SearchResultsView";
 import { mockHotels } from "@/utils/mockData";
 
+jest.mock("@/components/ListItem", () => ({
+  ListItem: () => <div data-testid="mock-list-item">Mocked ListItem</div>,
+}));
+
 describe("SearchResultsView", () => {
   it("renders the correct number of hotels", () => {
     render(<SearchResultsView hotels={mockHotels} />);

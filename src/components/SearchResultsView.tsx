@@ -1,5 +1,6 @@
 import { Hotel } from "@/types/hotel";
 import React from "react";
+import { ListItem } from "@/components/ListItem";
 
 interface SearchResultsProps {
   hotels: Hotel[];
@@ -22,9 +23,7 @@ export const SearchResultsView: React.FC<SearchResultsProps> = ({ hotels }) => {
       </div>
       <div className="grid grid-cols-1 gap-1 pb-1 border-b-[1px]">
         {hotels.length > 0
-          ? hotels.map((hotel) => (
-              <div key={hotel.id}>{hotel.property.title}</div>
-            ))
+          ? hotels.map((hotel) => <ListItem key={hotel.id} hotel={hotel} />)
           : null}
       </div>
     </>

@@ -30,7 +30,7 @@ describe("Home (Server Component)", () => {
     render(await Home());
 
     await waitFor(() => {
-      const heading = screen.getByRole("heading");
+      const heading = screen.getAllByRole("heading")[0];
       expect(heading.textContent).toBe("2 hotels in Sydney");
     });
   });
