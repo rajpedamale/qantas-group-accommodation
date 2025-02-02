@@ -1,14 +1,37 @@
 import "@testing-library/jest-dom";
-import { render, screen } from "@testing-library/react";
-import Page from "./page";
-import * as React from "react";
+import { render, screen, waitFor } from "@testing-library/react";
+import Home from "./page";
+import { mockHotels } from "@/utils/mockData";
 
-describe("Page", () => {
-  it("renders a heading", () => {
-    render(<Page />);
+jest.mock("./page", () => ({
+  __esModule: true,
+  default: jest.fn(),
+}));
 
-    const heading = screen.getByRole("heading", { level: 1 });
+describe("Home (Server Component)", () => {
+  it("displays loading message before hotels load", async () => {
+    (Home as jest.Mock).mockImplementation(async () => {
+      return <p className="text-center text-gray-500">Loading hotels...</p>;
+    });
 
-    expect(heading).toBeInTheDocument();
+    render(await Home());
+
+    expect(screen.getByText(/loading hotels.../i)).toBeInTheDocument();
+  });
+
+  it("renders the correct number of hotels", async () => {
+    (Home as jest.Mock).mockImplementation(async () => {
+      const SearchResultsView = (await import("@/components/SearchResultsView"))
+        .SearchResultsView;
+
+      return <SearchResultsView hotels={mockHotels} />;
+    });
+
+    render(await Home());
+
+    await waitFor(() => {
+      const heading = screen.getByRole("heading");
+      expect(heading.textContent).toBe("2 hotels in Sydney");
+    });
   });
 });
